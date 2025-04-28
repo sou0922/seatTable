@@ -21,6 +21,11 @@ Would you like to use Turbopack for `next dev`? > No
 Would you like to customize the import alias (`@/*` by default)? > Yes  
 What import alias would you like configured? › @/*
 ```
+4. 各種パッケージインストール
+```bash
+npm install next-auth
+npm install microcms-js-sdk
+```
 
 # 使用方法
 * 開発サーバで起動
