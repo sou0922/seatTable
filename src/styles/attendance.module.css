@@ -1,0 +1,152 @@
+.background {
+    width: 100%;
+    min-height: 100%; /* 画面全体を最低限確保 */
+    background-color: #AFBF9F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.room {
+    width: 95%;
+    height: 95vh; /* room の高さを調整 */
+    background-color: #f9f7e3;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+    display: flex;
+}
+
+.area {
+    width: 100%;
+    height: 7.5%;
+    display: flex;
+    gap: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.looseLeaf {
+    width: 3%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-right: 2%;
+}
+
+.square {
+    height: 5%;
+    width: auto;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hole {
+    width: 50%;
+    height: 50%;
+    background-color: gray;
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.main {
+    width: 90%;
+    height: 100%;
+}
+
+.row {
+    width: 100%;
+    height: calc(100% / 11);
+    border-bottom: 1.5px dashed gray;
+    composes: sideBySideCenter from "@/styles/utils.module.css";
+    justify-content: center;
+}
+
+.h2 {
+    text-align: center;
+}
+
+/*プルダウン*/
+.cp_ipselect06 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 40%;
+    height: 100%;
+}
+.cp_ipselect06 .cp_sl06 {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    cursor: pointer;
+    text-overflow: ellipsis;/*テキストがオーバーしたら'...'で省略*/
+    z-index: 1;
+    /* 標準のスタイルを無効にしborder-bottomを設定 */
+    border: none;
+    appearance: none;
+    outline: none;
+    background: transparent;
+    border-radius: 0;
+    border-bottom: 2px solid #67735C;
+    font-size: 20px;
+}
+/*プルダウンの三角を設定*/
+.cp_ipselect06::after {
+    position: absolute;
+    right: 15px;
+    content: '';
+    width: 16px;
+    height: 8px;
+    background: #262626;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.cp_sl06_selectlabel {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: #666666;
+    transition: 0.2s ease all;
+  }
+/*選択した際の動き:「Choose」の文字*/
+.cp_sl06:focus ~ .cp_sl06_selectlabel,
+.cp_sl06:valid ~ .cp_sl06_selectlabel {
+    color: #67735C;
+    top: -20px;
+    transition: 0.2s ease all;
+    font-size: 80%;
+}
+/*選択した際の動き:セレクト下のライン*/
+.cp_sl06_selectbar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.cp_sl06_selectbar:before,
+.cp_sl06_selectbar:after {
+    bottom: 1px;
+    content: '';
+    width: 0;
+    height: 2px;
+    position: absolute;
+    background: #67735C;
+    transition: 0.2s ease all;
+}
+.cp_sl06_selectbar:before {
+    left: 50%;
+}
+.cp_sl06_selectbar:after {
+    right: 50%;
+}
+/*focus時の設定*/
+.cp_ipselect06 .cp_sl06:focus {
+    border-bottom: 1px solid transparent;
+}
+  .cp_sl06:focus ~ .cp_sl06_selectbar:before,
+  .cp_sl06:focus ~ .cp_sl06_selectbar:after {
+    width: 50%;
+}

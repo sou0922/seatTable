@@ -1,57 +1,7 @@
-import React, { useState } from "react";
-import { getUserSession } from "@/lib/session";
-import { GetServerSideProps } from "next";
 import styles from "@/styles/seat.module.css";
 import Room from "@/components/room";
-import { sendDatatoGas } from "@/hooks/sendDatatoGas";
-import { useEffect } from "react";
 
-export const getServerSideProps: GetServerSideProps = getUserSession;
-
-type Student = {
-    name: string;
-    speedMaster: string;
-    inCharge: string;
-}
-
-export default function Seat({email}: {email: string}) {
-    const inChargeList: {[key: string]: Student[]} = {};
-    const kind = "chair";
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        const getStudentData = async() => {
-            const today = new Date();
-            const pastDate = localStorage.getItem("today");
-            const newDate = today.getMonth() + 1 + "_" + today.getDate();
-            if(pastDate != newDate) {
-                setIsLoading(true);
-                const response = await sendDatatoGas({kind: kind, email: email});
-                for(const student of response.studentList) {
-                    if(student.inCharge) {
-                        if(!inChargeList[student.inCharge]) {
-                            inChargeList[student.inCharge] = [];
-                        }
-                        const newStudent: Student = {name: student.name, speedMaster: student.speedMaster, inCharge: student.inCharge};
-                        inChargeList[student.inCharge].push(newStudent);
-                    }
-                }
-                // 担当リストをローカルストレージ追加
-                localStorage.setItem("inChargeList", JSON.stringify(inChargeList));
-                // 初期状態座席作成
-                localStorage.setItem("chairList", JSON.stringify(response.chairList));
-                // 日付更新
-                localStorage.setItem("today", newDate);
-                setIsLoading(false);
-                window.location.reload();
-            }
-        }
-
-        // 初回時にマウント
-        getStudentData();
-        
-    }, [])
-
+export default function Index() {
     const layout1 = [["0", "0", "0", "0", "1_23", "1_12", "1_1"],
                     ["0", "0", "0", "0", "1_24", "1_13", "1_2"],
                     ["0", "0", "0", "0", "1_25", "1_14", "1_3"],
@@ -82,11 +32,9 @@ export default function Seat({email}: {email: string}) {
 
     return(
         <div className={styles.background}>
-            <div className={styles.loading} style={{display: isLoading ? "block" : "none"}}><p>ロード中...</p></div>
+            <div className={styles.loading}></div>
             <Room roomName="class1" layout={layout1} />
             <Room roomName="class2" layout={layout2} />
         </div>
     )
 }
-
-Seat.getLayout = (page: React.ReactNode) => page;

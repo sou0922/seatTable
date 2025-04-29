@@ -1,0 +1,52 @@
+.room {
+    width: 95%;
+    height: 95vh; /* room の高さを調整 */
+    background-color: #f9f7e3;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+    display: flex;
+}
+
+.main {
+    width: 90%;
+    height: 100%;
+}
+
+.area {
+    width: 100%;
+    height: 90%;
+    display: grid;
+}
+
+.title {
+    text-align: center;
+    height: 5%;
+}
+
+.looseLeaf {
+    width: 3%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-right: 2%;
+}
+
+.square {
+    height: 5%;
+    width: auto;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hole {
+    width: 50%;
+    height: 50%;
+    background-color: gray;
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}

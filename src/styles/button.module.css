@@ -1,0 +1,27 @@
+.button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 2px solid var(--gray-50);
+    border-radius: 10px;
+    box-shadow: 0 5px 0 var(--gray-50);
+    transition: .3s;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--gray-50);
+    transform: translate(5px);
+    box-shadow: 0 0 0 var(--gray-50);
+}
+
+.button:active{
+    color: #fff;
+    background: #AEC6CF;
+}

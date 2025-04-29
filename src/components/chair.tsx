@@ -4,87 +4,37 @@ import { useRouter } from "next/router";
 
 type Props = {
     id: string;
+    name: string;
+    rank: string;
 };
 
-type ChairData = {
-    student: { name: string; speedMaster?: string };
-    bad?: string;
-};
-
-export default function Chair({ id }: Props) {
+export default function Chair({ id, name, rank }: Props) {
     const router = useRouter();
-    const [targetId, setTargetId] = useState<string>(id);
-    const [selectedChair, setChair] = useState<ChairData | null>(null);
     const [type, setType] = useState<string>("none");
 
+    // 状態を更新するロジックを useEffect 内に移動
+    useEffect(() => {
+        if (id === "0") {
+            setType("none");
+        } else if (name === "") {
+            setType("available");
+        } else {
+            setType("occupied");
+        }
+    }, [id, name]); // id と name が変更されたときにのみ実行
+
     const move = () => {
-        // 座席に学生情報がある場合
-        if(selectedChair?.student) {
-            router.push(`/leaving?id=${targetId}`)
+        if (name === "") {
+            router.push(`/attendance?id=${id}`);
+        } else {
+            router.push(`/leaving?id=${id}`);
         }
-        // 座席に学生情報がない場合
-        else {
-            router.push(`/attendance?id=${targetId}`)
-        }
-    }
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const storedChair = JSON.parse(localStorage.getItem("chairList") || "[]");
-            for(const chair of storedChair) {
-                if(chair.id == targetId) {
-                    if(chair.student) {
-                        switch (chair.student.speedMaster) {
-                            case "英単語1200":
-                                chair.student.speedMaster = "★"
-                                break;
-                            case "英単語1800":
-                                chair.student.speedMaster = "★★"
-                                break;
-                            case "英熟語750":
-                                chair.student.speedMaster = "★★★"
-                                break;
-                            case "英文法750":
-                                chair.student.speedMaster = "★★★★"
-                                break;
-                            case "例文300":
-                                chair.student.speedMaster = "★★★★★"
-                                break;
-                            case "上級英単語1000":
-                                chair.student.speedMaster = "★★★★★★"
-                                break;
-                            case "上級英熟語":
-                                chair.student.speedMaster = "★★★★★★★"
-                                break;
-                        }
-                    }
-                    setChair(chair);
-                }
-            }
-        }
-    }, [targetId]);
-
-    useEffect(() => {
-        if(targetId !== "0") {
-            if(selectedChair) {
-                setType("availabe");
-                if (selectedChair.student?.name) {
-                    setType("occupied");
-                }
-                else if (selectedChair.bad) {
-                    setType("attention");
-                }
-            }
-        }
-        else {
-            setTargetId("");
-        }
-    })
+    };
 
     return (
-        <div key={targetId} className={`${styles.chair} ${styles[type] || "none"}`} onClick={targetId !== "" ? () => move() : undefined} >
-            <p>{targetId} {selectedChair?.student?.name || ""}</p>
-            <p>{selectedChair?.student?.speedMaster ?? selectedChair?.bad ?? ""}</p>
+        <div key={id} className={`${styles.chair} ${styles[type] || "none"}`} onClick={id !== "0" ? () => move() : undefined}>
+            <p>{id === "0" ? "" : id} {name}</p>
+            <p>{rank}</p>
         </div>
     );
 }

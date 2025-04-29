@@ -1,0 +1,38 @@
+.chair {
+    border-radius: 5px;
+    margin: 1.5%;
+    border-bottom: 1.5px dashed gray;
+    font-size: small;
+}
+
+.none {
+    cursor: "";
+    background-color: transparent;
+}
+
+.available {
+    cursor: pointer;
+    background-color: #EEECEC;
+}
+
+.available:hover {
+    background-color: #D3E173;
+}
+
+.occupied {
+    cursor: pointer;
+    background-color: #AFBF9F;
+    color: white;
+}
+
+.attention {
+    cursor: pointer;
+    background-color: #6aa84f;;
+}
+
+
+
+.default:hover {
+    background-color: #D3E173;
+    cursor: pointer;
+}
