@@ -1,4 +1,92 @@
 [
-    {"name": "so", "seatID": "", "rank": "", "teacher": "tamaki"},
-    {"name": "tt", "seatID": "", "rank": "", "teacher": "tamaki"}
+  {
+    "name": "江戸川コナン",
+    "seatID": "",
+    "rank": "★★★★★",
+    "teacher": "青山剛昌"
+  },
+  {
+    "name": "工藤新一",
+    "seatID": "",
+    "rank": "★★★★★",
+    "teacher": "青山剛昌"
+  },
+  {
+    "name": "毛利蘭",
+    "seatID": "",
+    "rank": "★★★★★",
+    "teacher": "青山剛昌"
+  },
+  {
+    "name": "灰原哀",
+    "seatID": "",
+    "rank": "★★★★★",
+    "teacher": "青山剛昌"
+  },
+  {
+    "name": "ルフィ",
+    "seatID": "",
+    "rank": "★★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "エース",
+    "seatID": "",
+    "rank": "★★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "サボ",
+    "seatID": "",
+    "rank": "★★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "うずまきナルト",
+    "seatID": "",
+    "rank": "★★",
+    "teacher": "岸本斉史"
+  },
+  {
+    "name": "うちはサスケ",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "岸本斉史"
+  },
+  {
+    "name": "春野サクラ",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "岸本斉史"
+  },
+  {
+    "name": "ナミ",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "ロビン",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "チョッパー",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "ゾロ",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "尾田栄一郎"
+  },
+  {
+    "name": "ウソップ",
+    "seatID": "",
+    "rank": "★",
+    "teacher": "尾田栄一郎"
+  }
 ]

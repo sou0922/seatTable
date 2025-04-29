@@ -3,66 +3,73 @@ import Button from "@/components/button";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-type Student = {
+type Person = {
     name: string;
-    speedMaster: string;
-    inCharge: string;
-}
-
-type Chair = {
-    id: string;
-    bad: string;
-    student: Student;
+    seatID: string;
+    rank: string;
+    teacher: string;
 }
 
 export default function Attendance() {
     const router = useRouter();
-    const [inChargeList, setInChargeList] = useState<Record<string, Student[]>>({});
     const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const [subCategories, setSubCategories] = useState<Student[]>([]);
-    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+    const [selectedName, setSelectedName] = useState<string>("");
+    const [people, setPeople] = useState<Person[]>([]);
+    const [teachers, setTeachers] = useState<string[]>([]);
+    const [filteredNames, setFilteredNames] = useState<string[]>([]);
     const id = router.query.id;
     const position = typeof id === "string" ? id.split("_")[0] + "の" + id.split("_")[1] + "番": "";
+
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const storedList = localStorage.getItem("inChargeList");
-            setInChargeList(storedList ? JSON.parse(storedList) : {});
-        }
+        const fetchPeople = async () => {
+            try {
+                const response = await fetch("/people.json");
+                const data = (await response.json()) as Person[];
+                setPeople(data);
+                const uniqueTeachers = Array.from(new Set(data.map((person) => person.teacher)));
+                setTeachers(uniqueTeachers);
+            } catch (error) {
+                console.error("Error loading people.json:", error);
+            }
+        };
+        fetchPeople();
     }, []);
 
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const category = event.target.value;
-        setSelectedCategory(category);
-        setSubCategories(inChargeList[category] || []);
-        setSelectedStudent(null);
+    const handleTeacherChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const teacher = event.target.value;
+        setSelectedCategory(teacher);
+        const filtered = people.filter(person => person.teacher === teacher).map(person => person.name);
+        setFilteredNames(filtered);
     };
 
-    const handleStudentChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const student = subCategories.find(s => s.name === event.target.value) || null;
-        setSelectedStudent(student);
+    const handleNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedName(event.target.value);
     };
 
-    const setChair = () => {
-        if (typeof id !== "string" || !selectedStudent) {
-            alert("あなたの名前を教えて下さい。");
+    const setChair = async () => {
+        if (typeof id !== "string" || !selectedName) {
+            alert("名前を選択してください。");
             return;
         }
-    
-        if (typeof window === "undefined") return; // サーバーサイドでの実行を防ぐ
-    
-        // ローカルストレージから現在の chairList を取得
-        const chairListJSON = localStorage.getItem("chairList");
-        const chairList: Chair[] = chairListJSON ? JSON.parse(chairListJSON) : [];
-    
-        // 対象の id の chair を更新
-        const updatedChairList = chairList.map(chair =>
-            chair.id === id ? { ...chair, student: selectedStudent } : chair
-        );
-    
-        // 更新後の chairList をローカルストレージに保存
-        localStorage.setItem("chairList", JSON.stringify(updatedChairList));
-    
-        router.push("/seat");
+
+        try {
+            const updatedPeople = people.map((person: Person) =>
+                person.name === selectedName ? { ...person, seatID: id } : person
+            );
+
+            await fetch("/api/update-people", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ people: updatedPeople }),
+            });
+
+            router.push("/");
+        } catch (error) {
+            console.error("Error updating people.json:", error);
+            alert("データの更新中にエラーが発生しました。");
+        }
     };
     
     return (
@@ -80,10 +87,10 @@ export default function Attendance() {
                     <div className={styles.row}><h2 className={styles.h2}>担当の先生は?</h2></div>
                     <div className={styles.row}>
                         <div className={styles.cp_ipselect06}>
-                            <select className={styles.cp_sl06} id="category-select" onChange={handleCategoryChange}>
+                            <select className={styles.cp_sl06} id="category-select" onChange={handleTeacherChange}>
                                 <option>選択してください</option>
-                                {Object.keys(inChargeList).map((category) => (
-                                    <option key={category} value={category}>{category}</option>
+                                {teachers.map((teacher, index) => (
+                                    <option key={index} value={teacher}>{teacher}</option>
                                 ))}
                             </select>
                             <span className={styles.cp_sl06_selectbar}></span>
@@ -93,10 +100,10 @@ export default function Attendance() {
                     <div className={styles.row}><h2 className={styles.h2}>あなたの名前は?</h2></div>
                     <div className={styles.row}>
                         <div className={styles.cp_ipselect06}>
-                            <select className={styles.cp_sl06}  id="sub-category-select" disabled={!selectedCategory} onChange={handleStudentChange}>
+                            <select className={styles.cp_sl06}  id="sub-category-select" disabled={!selectedCategory} onChange={handleNameChange}>
                                 <option>選択してください</option>
-                                {subCategories.map((student, index) => (
-                                    <option key={index} value={student.name}>{student.name}</option>
+                                {filteredNames.map((name, index) => (
+                                    <option key={index} value={name}>{name}</option>
                                 ))}
                             </select>
                             <span className={styles.cp_sl06_selectbar}></span>
@@ -114,5 +121,3 @@ export default function Attendance() {
         </div>
     )
 }
-
-Attendance.getLayout = (page: React.ReactNode) => page;

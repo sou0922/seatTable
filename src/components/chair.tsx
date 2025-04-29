@@ -33,7 +33,8 @@ export default function Chair({ id, name, rank }: Props) {
 
     return (
         <div key={id} className={`${styles.chair} ${styles[type] || "none"}`} onClick={id !== "0" ? () => move() : undefined}>
-            <p>{id === "0" ? "" : id} {name}</p>
+            <p>{id === "0" ? "" : id}</p>
+            <p>{name}</p>
             <p>{rank}</p>
         </div>
     );
