@@ -29,6 +29,8 @@ export default function Index() {
                     ["0", "0", "0", "0", "0", "0", "0"],
                     ["2_99", "2_100", "2_101", "2_102", "0", "0", "0"],
                     ];
+    
+    const layout3 = [];
 
     return(
         <div className={styles.background}>
