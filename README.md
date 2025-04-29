@@ -4,7 +4,6 @@
 # 使用技術
 * Node.js
 * Next.js
-* Google App Script
 
 # 環境設定
 1. Node.jsをインストールしてください
